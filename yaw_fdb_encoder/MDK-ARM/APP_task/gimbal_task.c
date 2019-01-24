@@ -119,9 +119,9 @@ void Gimbal_Contrl_Task(void const * argument)
 
 //					pid_calc(&pid_yaw_jy901,(ptr_jy901_t_yaw.final_angle),yaw_set.expect);
 					pid_calc(&pid_yaw_saber, saberDataHandle.euler.yaw,yaw_set.expect);
-					pid_calc(&pid_yaw_saber_spd,(saberDataHandle.gyroCal.gyroZ), pid_yaw_jy901.pos_out);
+					pid_calc(&pid_yaw_saber_spd,(saberDataHandle.gyroCal.gyroZ), pid_yaw_saber.pos_out);
 					//pit÷·
-					pid_calc(&pid_pit, pit_get.total_angle, pit_set.expect);
+					pid_calc(&pid_pit, saberDataHandle.euler.roll, pit_set.expect);
 					pid_calc(&pid_pit_saber_spd,(saberDataHandle.gyroCal.gyroY), pid_pit.pos_out);
 					
 				}

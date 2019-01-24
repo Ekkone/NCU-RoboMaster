@@ -34,6 +34,7 @@ int16_t W_speed_max = 3000;
 int16_t W_speed_min = -3000; 
 uint8_t press_counter;
 uint8_t shot_anjian_counter=0;
+uint8_t shot_frequency = 20;
 int8_t chassis_gimble_Mode_flg;
 //volatile float remain_power=0.0;   //底盘功率 _待续
 //float power; 				 //底盘功率 _测试
@@ -78,7 +79,7 @@ void RemoteControlProcess()
 						  pit_set.expect = pit_set.expect +(0x400-RC_Ctl.rc.ch3)/20;	
 							yaw_set.expect = yaw_set.expect +(0x400-RC_Ctl.rc.ch2)/20;	
 							moto_3508_set.dstVmmps_W=((RC_Ctl.rc.ch0-0x400)*5);
-							moto_3508_set.dstVmmps_Y=((RC_Ctl.rc.ch1-0x400)*5);
+							moto_3508_set.dstVmmps_Y=-(-(RC_Ctl.rc.ch1-0x400)*5);
 					 }
 
 
@@ -89,7 +90,7 @@ void RemoteControlProcess()
 									if(RC_Ctl.rc.s1==1)
 									{
 										shot_anjian_counter++;
-										if(shot_anjian_counter>10)
+										if(shot_anjian_counter > shot_frequency)
 										{
 										chassis_gimble_Mode_flg=1;
 										ptr_heat_gun_t.sht_flg=1;
@@ -97,17 +98,21 @@ void RemoteControlProcess()
 										shot_anjian_counter=0;
 										}
 									}
-								   	else
-								  	{
-											ptr_heat_gun_t.sht_flg=0;
-										  chassis_gimble_Mode_flg=0;
-								   	}
+                  else if(RC_Ctl.rc.s1==2)
+                  {
+                    ptr_heat_gun_t.sht_flg=2;
+                  }
+                  else
+                  {
+                    ptr_heat_gun_t.sht_flg=0;
+                    chassis_gimble_Mode_flg=0;
+                  }
 								
 				
-							if(RC_Ctl.rc.s1==2)
-									{
-										HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-									}
+//							if(RC_Ctl.rc.s1==2)
+//									{
+//										HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+//									}
 					}
 }
 

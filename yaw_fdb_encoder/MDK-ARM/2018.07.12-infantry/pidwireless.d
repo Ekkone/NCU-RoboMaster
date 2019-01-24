@@ -41,6 +41,6 @@
 2018.07.12-infantry\pidwireless.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 2018.07.12-infantry\pidwireless.o: .\Algorithm\pid.h
 2018.07.12-infantry\pidwireless.o: .\Algorithm\protocol.h
-2018.07.12-infantry\pidwireless.o: ../Inc/USART.h
+2018.07.12-infantry\pidwireless.o: ../Inc/usart.h
 2018.07.12-infantry\pidwireless.o: Communication\communication.h 
 2018.07.12-infantry\pidwireless.o: ../Inc/spi.h
