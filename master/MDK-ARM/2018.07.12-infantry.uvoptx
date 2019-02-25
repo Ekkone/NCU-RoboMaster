@@ -152,50 +152,50 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>137</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134222006</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\asus\Desktop\鏄撴惮閿嬪伐浣滄眹鎬?涓€鏈?NCU-RoboMaster\yaw_fdb_encoder\MDK-ARM\APP_task\led_task.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\2018_07\APP_task/led_task.c\137</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
           <LineNumber>235</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134238986</Address>
+          <Address>134237524</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\asus\Desktop\鏄撴惮閿嬪伐浣滄眹鎬?涓€鏈?NCU-RoboMaster\yaw_fdb_encoder\MDK-ARM\APP_task\data_pro_task.c</Filename>
+          <Filename>.\APP_task\data_pro_task.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\2018_07\APP_task/data_pro_task.c\235</Expression>
         </Bp>
         <Bp>
-          <Number>2</Number>
+          <Number>1</Number>
           <Type>0</Type>
           <LineNumber>349</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134241918</Address>
+          <Address>134240390</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\asus\Desktop\鏄撴惮閿嬪伐浣滄眹鎬?涓€鏈?NCU-RoboMaster\yaw_fdb_encoder\Src\stm32f4xx_it.c</Filename>
+          <Filename>../Src/stm32f4xx_it.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\2018_07\../Src/stm32f4xx_it.c\349</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>75</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134223176</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\APP_task\gun_task.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\2018_07\APP_task/gun_task.c\75</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -366,7 +366,7 @@
 
   <Group>
     <GroupName>Middlewares/FreeRTOS</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

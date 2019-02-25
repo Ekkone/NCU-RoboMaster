@@ -7,7 +7,7 @@
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/core_cm4.h
-2018.07.12-infantry\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+2018.07.12-infantry\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -15,11 +15,11 @@
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/arm_math.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/core_cm4.h
-2018.07.12-infantry\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-2018.07.12-infantry\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+2018.07.12-infantry\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
+2018.07.12-infantry\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\math.h
 2018.07.12-infantry\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 2018.07.12-infantry\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-2018.07.12-infantry\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+2018.07.12-infantry\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 2018.07.12-infantry\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 2018.07.12-infantry\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 2018.07.12-infantry\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -39,7 +39,7 @@
 2018.07.12-infantry\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 2018.07.12-infantry\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 2018.07.12-infantry\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-2018.07.12-infantry\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+2018.07.12-infantry\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/core_cmFunc.h
 2018.07.12-infantry\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 2018.07.12-infantry\main.o: ../Inc/FreeRTOSConfig.h
@@ -83,7 +83,7 @@
 2018.07.12-infantry\main.o: ../Drivers/CMSIS/Include/core_cmFunc.h
 2018.07.12-infantry\main.o: .\APP_task\gimbal_task.h
 2018.07.12-infantry\main.o: .\Algorithm\mecanum_calc.h
-2018.07.12-infantry\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+2018.07.12-infantry\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 2018.07.12-infantry\main.o: .\Algorithm\Power_restriction.h
 2018.07.12-infantry\main.o: .\APP_task\data_pro_task.h
 2018.07.12-infantry\main.o: .\Communication\atom_imu.h

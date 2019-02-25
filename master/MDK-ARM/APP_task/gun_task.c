@@ -65,7 +65,7 @@ void Gun_Task(void const * argument)
   /*设定发弹*/
   int32_t one_angle = -215;    //单个角度 -122  60
   uint8_t frequency = 40;     //单个频率，越小越快
-  float   all_speed = -4000;  //连续速度-7000 
+  float   all_speed = -8000;  //连续速度-7000 
 
 	for(;;)
 	{
