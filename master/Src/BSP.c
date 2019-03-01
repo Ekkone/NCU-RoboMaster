@@ -183,7 +183,7 @@ void BSP_Init(void)
   HAL_CAN_Receive_IT(&hcan1, CAN_FIFO0); 
   HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
 	
-	JY61_Frame();
+	JY61_Frame();  //
 	HAL_Delay(1000);
 
 }

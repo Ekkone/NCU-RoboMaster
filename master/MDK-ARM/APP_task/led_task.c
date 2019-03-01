@@ -29,7 +29,7 @@
 
 void Led_Task(void const * argument)
 {
-	
+#if BoardNew
 	osDelay(100);
 	portTickType xLastWakeTime;
   xLastWakeTime = xTaskGetTickCount();
@@ -103,6 +103,7 @@ void Led_Task(void const * argument)
 		
 	 }
  }
+#endif
 }
 
 

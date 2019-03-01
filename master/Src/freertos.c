@@ -136,10 +136,11 @@ void MX_FREERTOS_Init(void) {
 	
 	osThreadDef(GunTask, Gun_Task, osPriorityNormal, 0, 128);
 	GunTaskHandle = osThreadCreate(osThread(GunTask), NULL);
-	
+#if BoardNew	
 	osThreadDef(LedTask, Led_Task, osPriorityNormal, 0, 64);
 	LedTaskHandle = osThreadCreate(osThread(LedTask), NULL);
 	
+#endif
 //	osThreadDef(CheckTask, Check_Task, osPriorityNormal, 0, 128);
 //	CheckTaskHandle = osThreadCreate(osThread(CheckTask), NULL);
 	
