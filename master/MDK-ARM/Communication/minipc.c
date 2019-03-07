@@ -59,11 +59,13 @@ void Get_MiniPC_Data(void)
 	}
 }
 
-void Send_MiniPC_Data(unsigned char cmd1,unsigned char cmd2,unsigned char state)
+void Send_MiniPC_Data(float cmd1,float cmd2,float state)
 {
 	minipc_tx.frame_header = 0xFF;
-	minipc_tx.cmd1 			   = cmd1;
-	minipc_tx.cmd1 				 = cmd2;
+	minipc_tx.cmd1 			   = (int16_t)(cmd1*174.5)>>8;
+	minipc_tx.cmd2 				 = (int16_t)cmd1*174.5;
+	minipc_tx.cmd3			   = (int16_t)(cmd2*174.5)>>8;
+	minipc_tx.cmd4 				 = (int16_t)cmd2*174.5;
 	minipc_tx.frame_tail   = 0xFE;
 	
 	HAL_UART_Transmit(&huart2,(uint8_t *)&minipc_tx,sizeof(minipc_tx),10);

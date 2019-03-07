@@ -122,7 +122,7 @@ uint32_t Micro_Tick; //单位0.005ms
 uint32_t Photoelectric_gate1 = 0,Photoelectric_gate2 = 0;
 uint16_t gate1_counter = 0,gate2_counter = 0;
 static float Golf_speed = 0;
-int16_t Golf_counter = 0;
+int16_t Golf_counter = 0; 
 /*测速down*/
 
 void testTask(void const * argument)
@@ -160,22 +160,24 @@ void testTask(void const * argument)
 //		printf("%s\n\r",InfoBuffer);
 
 		  int16_t  *ptr = angle; //初始化指针
-			angle[0]	= (ptr_jy901_t_yaw.final_angle);
-			angle[1]	= (ptr_jy901_t_angular_velocity.vz);
-			angle[2]	= ((int16_t)pid_yaw_jy901.pos_out);
+			angle[0]	= (yaw_get.total_angle);
+			angle[1]	= (-imu_data.gz);
+			angle[2]	= ((int16_t)pid_yaw.pos_out);
 			angle[3]	= (int16_t)(-pid_yaw_jy901_spd.pos_out);
 			/*用虚拟示波器，发送数据*/
-			vcan_sendware((uint8_t *)ptr,4*sizeof(angle[0]));
-		  vcan_sendware((uint8_t *)ptr,4*sizeof(angle[1]));
-		  vcan_sendware((uint8_t *)ptr,4*sizeof(angle[2]));
-		  vcan_sendware((uint8_t *)ptr,4*sizeof(angle[3]));
+//			vcan_sendware((uint8_t *)ptr,4*sizeof(angle[0]));
+//		  vcan_sendware((uint8_t *)ptr,4*sizeof(angle[1]));
+//		  vcan_sendware((uint8_t *)ptr,4*sizeof(angle[2]));
+//		  vcan_sendware((uint8_t *)ptr,4*sizeof(angle[3]));
 		
-		printf("  pit=%d \n\t",pit_get.total_angle);
-	  printf("  yaw=%d \n\t",yaw_get.angle);
-		
+//		printf("  yaw_get.total_angle=%d \n\t",yaw_get.total_angle);
+	  printf("  -imu_data.gz=%d \n\t",-imu_data.gz);
+//		printf("  pid_yaw.pos_out=%f \n\t",pid_yaw.pos_out);
+//	  printf("  -pid_yaw_jy901_spd.pos_out=%f \n\t",-pid_yaw_jy901_spd.pos_out);
+//		
 		HAL_GPIO_TogglePin(LED_RED_GPIO_Port,LED_RED_Pin); //Red
 		
-		osDelayUntil(&xLastWakeTime,100);
+		osDelayUntil(&xLastWakeTime,10);
 	}
 }
 

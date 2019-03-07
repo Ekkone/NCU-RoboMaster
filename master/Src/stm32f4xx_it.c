@@ -37,6 +37,7 @@
 #include "cmsis_os.h"
 #include "usart.h"
 #include "Motor_USE_CAN.h"
+#include "Motor_USE_TIM.h"
 #include "communication.h "
 #include "tim.h"
 #include "can.h"
@@ -77,6 +78,8 @@ extern xQueueHandle UART8_RX_QueHandle;//串口8接收队列
 extern uint32_t Micro_Tick;
 extern uint32_t Photoelectric_gate1,Photoelectric_gate2;
 extern uint16_t gate1_counter,gate2_counter;
+
+uint16_t mc_get[2] = {0,0};
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
@@ -213,6 +216,20 @@ void   TIM6_DAC_IRQHandler(void)
 {
 	    HAL_TIM_IRQHandler(&htim6);
 }
+
+//定时器2中断服务函数
+void TIM2_IRQHandler(void)
+{
+    HAL_TIM_IRQHandler(&htim2);
+}
+
+
+//定时器4中断服务函数
+void TIM4_IRQHandler(void)
+{
+    HAL_TIM_IRQHandler(&htim4);
+}
+
 /**
 * @brief This function handles TIM8 break interrupt and TIM12 global interrupt.
 */
@@ -440,10 +457,50 @@ void CAN2_RX0_IRQHandler(void)
 }
 extern volatile unsigned long long FreeRTOSRunTimeTicks;
 
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+{
+//   static uint8_t TIM2_STA;
+	if(htim->Instance == TIM2)
+	{
+//		/*    捕获上升沿时长     */
+//		if((TIM2_STA&0x80) == 0)//还未发生中断
+//		{
+//			if(TIM2_STA&0x40)//捕获到一个下降沿
+//			{
+//				TIM2_STA|=0x80;//标记成功捕获一次高电平脉宽
+////				TIM2_VAL=HAL_TIM_ReadCapturedValue(&htim2,TIM_CHANNEL_1);//读取当前的捕获值
+//				TIM_RESET_CAPTUREPOLARITY(&htim2,TIM_CHANNEL_1);//清除设置
+//				TIM_SET_CAPTUREPOLARITY(&htim2,TIM_CHANNEL_1,TIM_INPUTCHANNELPOLARITY_RISING);//上升沿捕获
+//			}
+//		}
+//		else 
+//		{
+//			TIM2_STA=0;
+////			TIM2_VAL=0;//数据清零
+//			TIM2_STA|=0X40;//标记捕获上升沿
+//			__HAL_TIM_DISABLE(&htim2);//关闭定时器5
+
+//			__HAL_TIM_SET_COUNTER(&htim2,0);//
+//			TIM_RESET_CAPTUREPOLARITY(&htim2,TIM_CHANNEL_1);//
+//			TIM_SET_CAPTUREPOLARITY(&htim2,TIM_CHANNEL_1,TIM_INPUTCHANNELPOLARITY_FALLING);//
+//			__HAL_TIM_ENABLE(&htim2);//使能定时器5
+//		}
+//		/*   捕获上升沿时长         */
+
+
+			Maichong_Count(0);
+		
+	}else if(htim->Instance == TIM4)
+	{
+		Maichong_Count(1);
+	}
+}
+
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-
+	static uint16_t i;
   /* USER CODE END Callback 0 */
 	if (htim->Instance == TIM1) 
 	{
@@ -467,7 +524,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	else if(htim == (&htim6))
 	{
 		RefreshSysTime();
-	}
+					i++;
+			if(i==10)
+			{
+			
+				mc_get[0]=mc_count[0];      //保存当前脉冲数
+				mc_get[1]=mc_count[1];
+				
+				mc_count[0]=0;           //脉冲计数清零
+				mc_count[1]=0;
+				i=0;
+				
+			}
+			
+    }
+	
 }
 /* USER CODE BEGIN 1 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)  //接收完成            暂时不加任务通知，后续讨论　　_待续

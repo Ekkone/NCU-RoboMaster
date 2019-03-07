@@ -39,7 +39,7 @@ extern volatile float remain_power;
 
 /* 本模块向外部提供的接口函数原型声明----------------------------------------*/
 void Gun_Task(void const * argument);
-
+void Mocha_Task(void const * argument);
 /* 全局配置区----------------------------------------------------------------*/
 
 #endif

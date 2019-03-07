@@ -56,7 +56,10 @@ typedef enum
 }TASK_NoDEF;
 
 extern SystemStateDef SystemState;
-
+extern SystemStateDef Remote;
+extern SystemStateDef Chassis_motor;
+extern SystemStateDef Gimbal_Motor;
+extern SystemStateDef JY61;
 
 int SystemState_Inite(void);//SystemState初始化
 void RefreshSysTime(void);//刷新系统时间（mm）

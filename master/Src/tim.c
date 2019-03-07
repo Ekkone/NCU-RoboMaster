@@ -53,6 +53,92 @@ TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim12;
 TIM_HandleTypeDef htim3;      //时间统计函数时基 
 TIM_HandleTypeDef htim6;
+TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim4;
+
+
+void MX_TIM2_Init(void)
+{
+	TIM_Encoder_InitTypeDef sConfig;
+	TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_IC_InitTypeDef sConfigIC;
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+	
+	
+	htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 0;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 10000;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	
+	
+  if (HAL_TIM_IC_Init(&htim2) != HAL_OK)
+  {
+   Error_Handler();
+  }
+
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  {
+   Error_Handler();
+  }
+
+  if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
+  {
+   Error_Handler();
+  }
+
+//  if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_3) != HAL_OK)
+//  {
+//   Error_Handler();
+//  }
+
+//  if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_4) != HAL_OK)
+//  {
+//   Error_Handler();
+//  }	
+}
+
+void MX_TIM4_Init(void)
+{
+	TIM_Encoder_InitTypeDef sConfig;
+	TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_IC_InitTypeDef sConfigIC;
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+	
+	
+	htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 0;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 10000;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	
+	
+  if (HAL_TIM_IC_Init(&htim4) != HAL_OK)
+  {
+   Error_Handler();
+  }
+
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim4, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  {
+   Error_Handler();
+  }
+
+  if (HAL_TIM_IC_ConfigChannel(&htim4, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
+  {
+   Error_Handler();
+  }
+	
+}
+
+
 
 /* TIM5 init function */
 void MX_TIM5_Init(void)
@@ -62,7 +148,7 @@ void MX_TIM5_Init(void)
   TIM_ClockConfigTypeDef sClockSourceConfig;
 
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 839;
+  htim5.Init.Prescaler = 83;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 1999;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -260,6 +346,87 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
   /* USER CODE END TIM12_MspDeInit 1 */
 	}
 } 
+
+
+void HAL_TIM_IC_MspInit(TIM_HandleTypeDef *htim)
+{
+	GPIO_InitTypeDef GPIO_InitStruct;
+	if(htim->Instance==TIM2)
+  {
+  /* USER CODE BEGIN TIM5_MspDeInit 0 */
+    __HAL_RCC_TIM2_CLK_ENABLE();
+			
+	  GPIO_InitStruct.Pin = TIM2_CH1_Pin|TIM2_CH2_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* USER CODE END TIM5_MspDeInit 0 */
+    /* Peripheral clock disable */
+		 HAL_NVIC_SetPriority(TIM2_IRQn,6,0);    //设置中断优先级，抢占优先级1，子优先级0
+		 HAL_NVIC_EnableIRQ(TIM2_IRQn);          //开启ITM2中断  
+	}
+	else if(htim->Instance == TIM4)
+	{
+	   __HAL_RCC_TIM4_CLK_ENABLE();
+			
+	  GPIO_InitStruct.Pin = TIM4_CH1_Pin|TIM4_CH2_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /* USER CODE END TIM5_MspDeInit 0 */
+    /* Peripheral clock disable */
+		 HAL_NVIC_SetPriority(TIM4_IRQn,6,0);    //设置中断优先级，抢占优先级1，子优先级0
+		 HAL_NVIC_EnableIRQ(TIM4_IRQn);          //开启ITM2中断  
+	}
+	
+}
+
+
+
+
+
+
+//void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim)
+//{
+//	GPIO_InitTypeDef GPIO_InitStruct;
+//	
+//	if(htim->Instance==TIM2)
+//  {
+//  /* USER CODE BEGIN TIM5_MspDeInit 0 */
+//    __HAL_RCC_TIM2_CLK_ENABLE();
+//			
+//	  GPIO_InitStruct.Pin = TIM2_CH1_Pin|TIM2_CH2_Pin;
+//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+//    GPIO_InitStruct.Pull = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//    GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+//		
+//		TIM2->CNT=0;
+//  /* USER CODE END TIM5_MspDeInit 0 */
+//    /* Peripheral clock disable */
+//	}
+////	else if(htim->Instance == TIM4)
+////	{
+////		__HAL_RCC_TIM4_CLK_ENABLE();
+////			
+////	  GPIO_InitStruct.Pin = TIM4_CH1_Pin|TIM4_CH2_Pin;
+////    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+////    GPIO_InitStruct.Pull = GPIO_NOPULL;
+////    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+////    GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
+////    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+////		
+////		TIM4->CNT=0;
+////	}
+//}
+
 
 /* USER CODE BEGIN 1 */
 

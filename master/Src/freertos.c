@@ -66,6 +66,7 @@
  osThreadId LedTaskHandle;
  osThreadId vOutLineCheckTaskHandle;
  osThreadId CheckTaskHandle;
+ osThreadId MochaTaskHandle;
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
@@ -82,6 +83,7 @@ extern void MiniPC_Data_task(void const * argument);
 extern void Led_Task(void const * argument);
 extern void vOutLineCheck_Task(void const *argument);
 extern void Check_Task(void const *argument);
+extern void Mocha_Task(void const *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -136,16 +138,18 @@ void MX_FREERTOS_Init(void) {
 	
 	osThreadDef(GunTask, Gun_Task, osPriorityNormal, 0, 128);
 	GunTaskHandle = osThreadCreate(osThread(GunTask), NULL);
-#if BoardNew	
-	osThreadDef(LedTask, Led_Task, osPriorityNormal, 0, 64);
-	LedTaskHandle = osThreadCreate(osThread(LedTask), NULL);
 	
-#endif
+//	osThreadDef(LedTask, Led_Task, osPriorityNormal, 0, 64);
+//	LedTaskHandle = osThreadCreate(osThread(LedTask), NULL);
+	
 //	osThreadDef(CheckTask, Check_Task, osPriorityNormal, 0, 128);
 //	CheckTaskHandle = osThreadCreate(osThread(CheckTask), NULL);
 	
 	osThreadDef(vOutLineCheckTask, vOutLineCheck_Task, osPriorityNormal, 0, 64);
 	vOutLineCheckTaskHandle = osThreadCreate(osThread(vOutLineCheckTask), NULL);
+	
+	osThreadDef(MochaTask, Mocha_Task, osPriorityNormal, 0, 64);
+	MochaTaskHandle = osThreadCreate(osThread(MochaTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
 

@@ -67,3 +67,4 @@
 2018.07.12-infantry\gun_task.o: .\Algorithm\SystemState.h
 2018.07.12-infantry\gun_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 2018.07.12-infantry\gun_task.o: ../Drivers/CMSIS/Include/core_cmFunc.h
+2018.07.12-infantry\gun_task.o: .\Algorithm\user_lib.h

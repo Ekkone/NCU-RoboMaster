@@ -19,6 +19,8 @@ typedef struct{
 unsigned char 		frame_header; 		  //֡ͷ0xFF
 unsigned char 		cmd1;     					//cmd1
 unsigned char 		cmd2;     					//cmd2 
+unsigned char 		cmd3;     					//cmd1
+unsigned char 		cmd4;     					//cmd2 	
 unsigned char 		frame_tail; 	  	  //֡β0xFE
 }Minipc_Tx;
 
@@ -30,7 +32,7 @@ extern uint8_t USART2_RX_DATA[(SizeofMinipc)];		//MiniPC
 extern uint16_t USART2_RX_NUM;
 
 void Get_MiniPC_Data(void);
-void Send_MiniPC_Data(unsigned char cmd1,unsigned char cmd2,unsigned char state);
+void Send_MiniPC_Data(float cmd1,float cmd2,float state);
 
 
 #endif

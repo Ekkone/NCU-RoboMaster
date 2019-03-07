@@ -97,7 +97,7 @@ void vcan_sendware(uint8_t *wareaddr, uint32_t waresize)
 /******** 发送一个字符 *********/
 void Usart_SendByte( UART_HandleTypeDef *huart,uint8_t ch )
 {
-  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 10); 
+  HAL_UART_Transmit(huart, (uint8_t *)&ch, 1, 10); 
 }
 	
 /******** 发送8位的数组 *********/

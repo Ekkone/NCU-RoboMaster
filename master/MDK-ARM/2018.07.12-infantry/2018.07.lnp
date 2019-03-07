@@ -49,6 +49,7 @@
 "2018.07.12-infantry\protocol.o"
 "2018.07.12-infantry\caloric_restriction.o"
 "2018.07.12-infantry\systemstate.o"
+"2018.07.12-infantry\user_lib.o"
 "2018.07.12-infantry\communication.o"
 "2018.07.12-infantry\minipc.o"
 "2018.07.12-infantry\pidwireless.o"

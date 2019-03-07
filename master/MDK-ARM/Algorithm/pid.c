@@ -60,7 +60,7 @@ pid_t pid_3508_current[4];	//底盘电机电流环控制
 	**************************************************************
 **/
 
-void abs_limit(float *a, float ABS_MAX){
+void ABS_limit(float *a, float ABS_MAX){
     if(*a > ABS_MAX)
         *a = ABS_MAX;
     if(*a < -ABS_MAX)
@@ -142,9 +142,9 @@ float pid_calc(pid_t* pid, float get, float set){
 			  
 		    pid->dout = LPF_1st(pid->dout_last,pid->dout_new,0.6);
 			
-        abs_limit(&(pid->iout), pid->IntegralLimit);
+        ABS_limit(&(pid->iout), pid->IntegralLimit);
         pid->pos_out = pid->pout + pid->iout + pid->dout;
-        abs_limit(&(pid->pos_out), pid->MaxOutput);
+        ABS_limit(&(pid->pos_out), pid->MaxOutput);
         pid->last_pos_out = pid->pos_out;	//update last time 
 			  pid->dout_last = pid->dout;
     }
@@ -154,10 +154,10 @@ float pid_calc(pid_t* pid, float get, float set){
         pid->iout = pid->i * pid->err[NOW];
         pid->dout = pid->d * (pid->err[NOW] - 2*pid->err[LAST] + pid->err[LLAST]);
         
-        abs_limit(&(pid->iout), pid->IntegralLimit);
+        ABS_limit(&(pid->iout), pid->IntegralLimit);
         pid->delta_u = pid->pout + pid->iout + pid->dout;
         pid->delta_out = pid->last_delta_out + pid->delta_u;
-        abs_limit(&(pid->delta_out), pid->MaxOutput);
+        ABS_limit(&(pid->delta_out), pid->MaxOutput);
         pid->last_delta_out = pid->delta_out;	//update last time
     }
     
@@ -190,9 +190,9 @@ float pid_sp_calc(pid_t* pid, float get, float set, float gyro){
 				else
 					pid->iout = 0;
         pid->dout = -pid->d * gyro/100.0f;	
-        abs_limit(&(pid->iout), pid->IntegralLimit);
+        ABS_limit(&(pid->iout), pid->IntegralLimit);
         pid->pos_out = pid->pout + pid->iout + pid->dout;
-        abs_limit(&(pid->pos_out), pid->MaxOutput);
+        ABS_limit(&(pid->pos_out), pid->MaxOutput);
         pid->last_pos_out = pid->pos_out;	//update last time 
     }
     else if(pid->pid_mode == DELTA_PID)//增量式P
@@ -201,10 +201,10 @@ float pid_sp_calc(pid_t* pid, float get, float set, float gyro){
 //        pid->iout = pid->i * pid->err[NOW];
 //        pid->dout = pid->d * (pid->err[NOW] - 2*pid->err[LAST] + pid->err[LLAST]);
 //        
-//        abs_limit(&(pid->iout), pid->IntegralLimit);
+//        ABS_limit(&(pid->iout), pid->IntegralLimit);
 //        pid->delta_u = pid->pout + pid->iout + pid->dout;
 //        pid->delta_out = pid->last_delta_out + pid->delta_u;
-//        abs_limit(&(pid->delta_out), pid->MaxOutput);
+//        ABS_limit(&(pid->delta_out), pid->MaxOutput);
 //        pid->last_delta_out = pid->delta_out;	//update last time
     }
     

@@ -58,9 +58,10 @@
 2018.07.12-infantry\stm32f4xx_it.o: ../Inc/usart.h
 2018.07.12-infantry\stm32f4xx_it.o: .\MotorDriver\Motor_USE_CAN.h
 2018.07.12-infantry\stm32f4xx_it.o: ../Inc/can.h
+2018.07.12-infantry\stm32f4xx_it.o: .\MotorDriver\Motor_USE_TIM.h
+2018.07.12-infantry\stm32f4xx_it.o: ../Inc/tim.h
 2018.07.12-infantry\stm32f4xx_it.o: .\Communication\communication.h 
 2018.07.12-infantry\stm32f4xx_it.o: ../Inc/spi.h
-2018.07.12-infantry\stm32f4xx_it.o: ../Inc/tim.h
 2018.07.12-infantry\stm32f4xx_it.o: .\Communication\pidwireless.h
 2018.07.12-infantry\stm32f4xx_it.o: .\Algorithm\pid.h
 2018.07.12-infantry\stm32f4xx_it.o: .\Algorithm\protocol.h

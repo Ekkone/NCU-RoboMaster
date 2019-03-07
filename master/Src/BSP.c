@@ -141,6 +141,8 @@ void BSP_Init(void)
 	/*定时器*/
   MX_TIM5_Init();
   MX_TIM12_Init();//测速模块定时器
+	MX_TIM2_Init();
+	MX_TIM4_Init();
 	MX_TIM6_Init();
 	SystemState_Inite();
   /*ADC*/
@@ -163,7 +165,7 @@ void BSP_Init(void)
 	HAL_UART_Receive_DMA(&huart1,USART1_RX_DATA,SizeofRemote); //这一步的目的是创建一段接受内存，和CAN的一样
 	HAL_UART_Receive_DMA(&huart8,UART8_RX_DATA,SizeofJY901);
 //  HAL_UART_Receive_DMA(&huart8,HOST_Buffer.buffer,sizeof(HOST_Buffer.buffer));//Sabar
-	HAL_UART_Receive_DMA(&huart2,USART2_RX_DATA,SizeofMinipc);
+//	HAL_UART_Receive_DMA(&huart2,USART2_RX_DATA,SizeofMinipc);
 
    /* 队列初始化  */
 //  UART1_RX_QueHandle=xQueueCreate(SizeofRemote,30);
@@ -176,14 +178,16 @@ void BSP_Init(void)
 /*开启ADC的DMA接收，注意缓存不能小于2，不能设置为_IO型即易变量*/
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)uhADCxConvertedValue, 10); 
 	/*陀螺仪*/
-//	 MPU6500_Init();
+	 MPU6500_Init();
 	/*摩擦轮*/
 	GUN_Init();
+	HAL_TIM_IC_Start_IT(&htim2,TIM_CHANNEL_1);
+	HAL_TIM_IC_Start_IT(&htim4,TIM_CHANNEL_1);
 	/*使能can中断*/
   HAL_CAN_Receive_IT(&hcan1, CAN_FIFO0); 
   HAL_CAN_Receive_IT(&hcan2, CAN_FIFO0);
 	
-//	JY61_Frame();  //
+//	JY61_Frame();
 	HAL_Delay(1000);
 
 }

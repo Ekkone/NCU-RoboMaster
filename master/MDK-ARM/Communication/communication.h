@@ -138,7 +138,11 @@ typedef struct
   int16_t gx;
   int16_t gy;
   int16_t gz;
-  
+	
+  int16_t last_gx;
+  int16_t last_gy;
+  int16_t last_gz; 
+	
   int16_t mx;
   int16_t my;
   int16_t mz;
@@ -164,6 +168,7 @@ extern RC_Ctl_t RC_Ctl; //Ò£¿ØÊý¾Ý
 void JY901_Data_Pro(void);
 //Ò£¿Ø
 void Remote_Ctrl(void);
+void Remote_Disable(void);
 //mpu6500
 uint8_t MPU6500_Init(void);
 uint8_t MPU6500_Write_Reg(uint8_t const reg, uint8_t const data);

@@ -106,6 +106,7 @@ extern pid_t pid_spd[4];
 extern pid_t pid_pos[4];
 #endif
 		
+extern pid_t pid_rub_spd[2];      //抹茶速度环		
 extern pid_t pid_yaw;
 extern pid_t pid_yaw_jy901;
 extern pid_t pid_yaw_jy901_spd;

@@ -299,6 +299,29 @@ void Remote_Ctrl(void)//遥控数据接收
 	 RC_Ctl.key.v = buff[14] | (buff[15] << 8); //!< KeyBoard value 
 }
 
+/***************************************************************************************
+**
+	*	@brief	Remote_Ctrl(void)
+	*	@param
+	*	@supplement	使用串口接收遥控器数据
+	*	@retval	
+****************************************************************************************/
+void Remote_Disable(void)//遥控数据接收
+{ 
+
+	 RC_Ctl.rc.ch0 = 0; //!< Channel 0 
+	 RC_Ctl.rc.ch1 = 0; //!< Channel 1 
+	 RC_Ctl.rc.ch2 = 0; 
+	 RC_Ctl.rc.ch3 = 0; //!< Channel 3 
+	 RC_Ctl.rc.s1 = 0; //!< Switch left 
+	 RC_Ctl.rc.s2 = 0; //!< Switch right 
+	 RC_Ctl.mouse.x = 0; //!< Mouse X axis 
+	 RC_Ctl.mouse.y = 0; //!< Mouse Y axis 
+	 RC_Ctl.mouse.z = 0; //!< Mouse Z axis 
+	 RC_Ctl.mouse.press_l = 0; //!< Mouse Left Is Press ? 
+	 RC_Ctl.mouse.press_r = 0; //!< Mouse Right Is Press ? 
+	 RC_Ctl.key.v = 0; //!< KeyBoard value 
+}
 /*************************板载imu模块*****************************/
 /***************************************************************************************
 **
@@ -554,9 +577,11 @@ void IMU_Get_Data()
 		data_sum += gz_data_filter[i];
 	}
 	imu_data.gz = data_sum / 5;
-if(pritnf_Imu){
-	printf("\r\n imu_data.gz = %d offset.gz = %d \r\n",imu_data.gz,imu_data_offest.gz);
-}
+	
+  imu_data.gz=LPF_1st(imu_data.last_gz,imu_data.gz,0.7);//一阶低通滤波
+	
+	
+	imu_data.last_gz=imu_data.gz;
 }
 
 /***************************************************************************************

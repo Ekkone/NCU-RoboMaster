@@ -89,18 +89,16 @@ void RemoteControlProcess()
 					
 					if(press_counter>=press_times)
 					{
+						
 							press_counter=press_times+1;
 									if(RC_Ctl.rc.s1==1)
 									{
 										
-										shot_anjian_counter++;
-										if(shot_anjian_counter > shot_frequency)
-										{
 										chassis_gimble_Mode_flg=1;
 										ptr_heat_gun_t.sht_flg=1;
 										press_counter=0;
 										shot_anjian_counter=0;
-										}
+										
 									}
                   else if(RC_Ctl.rc.s1==2)
                   {
@@ -109,7 +107,7 @@ void RemoteControlProcess()
                   }
                   else
                   {
-                    ptr_heat_gun_t.sht_flg=0;
+                    ptr_heat_gun_t.sht_flg=3;
                     chassis_gimble_Mode_flg=0;
                   }
 								
@@ -117,7 +115,9 @@ void RemoteControlProcess()
 							if(RC_Ctl.rc.s1==2)
 									{
 										HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+										ptr_heat_gun_t.sht_flg=2;
 									}
+							
 					}
 }
 
@@ -130,6 +130,8 @@ void RemoteControlProcess()
 ****************************************************************************************/
 void MouseKeyControlProcess()
 {
+	
+	     ptr_heat_gun_t.sht_flg=0;
 	
 	if(RC_Ctl.key.v & 0x10 )//设置速度档位，每档速度增加550
 					{
@@ -234,8 +236,9 @@ void Remote_Data_Task(void const * argument)
 			NotifyValue=0;
 			HAL_GPIO_TogglePin(GPIOF,GPIO_PIN_14); //GRE_main
 			
-//			RefreshTaskOutLineTime(RemoteDataTask_ON);
+			RefreshTaskOutLineTime(RemoteDataTask_ON);
 			Remote_Ctrl();
+			Send_MiniPC_Data(ptr_jy901_t_angular_velocity.vz,ptr_jy901_t_angular_velocity.vy,0);
 				switch(RC_Ctl.rc.s2)
 				{
 					case 1: RemoteControlProcess();break; 
@@ -252,6 +255,11 @@ void Remote_Data_Task(void const * argument)
 //					if(pit_set.expect<-500) pit_set.expect=-500;
 
             press_counter++;
+		}
+		
+		if(Remote.Mode)//遥控器掉线
+		{
+		    Remote_Disable();
 		}
 			osDelayUntil(&xLastWakeTime, REMOTE_PERIOD);
 	}
@@ -343,7 +351,7 @@ void MiniPC_Data_task(void const * argument)
 	   NotifyValue=ulTaskNotifyTake(pdTRUE,portMAX_DELAY);
     if(NotifyValue==1)
 		{
-			NotifyValue=0;
+
 			Get_MiniPC_Data();
 				
 //			pid_calc(&pid_minipc_yaw, (int16_t)minipc_rx.angle_yaw, 0);
@@ -354,7 +362,7 @@ void MiniPC_Data_task(void const * argument)
 //			yaw_set.expect_pc += pid_minipc_yaw.pos_out;
 //			pit_set.expect_pc += pid_minipc_pit.pos_out;
 
-			yaw_set.expect=minipc_rx.angle_yaw+yaw_get.total_angle;
+			yaw_set.expect=minipc_rx.angle_yaw+ptr_jy901_t_yaw.final_angle;
 			pit_set.expect=minipc_rx.angle_pit+pit_get.total_angle;
 			yaw_set.mode = minipc_rx.state_flag;
 			

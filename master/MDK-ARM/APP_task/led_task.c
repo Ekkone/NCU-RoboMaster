@@ -15,7 +15,11 @@
 #define LED_PERIOD  600
 #define Check_PERIOD  100
 /* 外部变量声明--------------------------------------------------------------*/
-//Power_Heat * power_heat;
+
+SystemStateDef Remote;
+SystemStateDef Chassis_motor;
+SystemStateDef Gimbal_Motor;
+SystemStateDef JY61;
 /* 外部函数原型声明-----------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -29,7 +33,7 @@
 
 void Led_Task(void const * argument)
 {
-#if BoardNew
+	
 	osDelay(100);
 	portTickType xLastWakeTime;
   xLastWakeTime = xTaskGetTickCount();
@@ -40,70 +44,119 @@ void Led_Task(void const * argument)
 		
 		if(SystemState.OutLine_Flag!=0)
 		{
-				if((SystemState.OutLine_Flag&0x01))
+				if((SystemState.OutLine_Flag&0x01))//遥控器掉线
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED1_Pin);
+					  Remote.Mode=1;
+					  printf("remote over");
 						osDelayUntil(&xLastWakeTime,200);
-				}else  HAL_GPIO_WritePin(GPIOG,LED1_Pin,GPIO_PIN_RESET);
-				
+					  
+				}else  
+				{
+						Remote.Mode=0;
+						HAL_GPIO_WritePin(GPIOG,LED1_Pin,GPIO_PIN_RESET);
+				}
 				
 				if((SystemState.OutLine_Flag&0x02))
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED2_Pin);
+					  Chassis_motor.Mode=1;
+					  printf("motor1 over");
 						osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED2_Pin,GPIO_PIN_RESET);
-				
+				} else  
+				{
+					  HAL_GPIO_WritePin(GPIOG,LED2_Pin,GPIO_PIN_RESET);
+				    Chassis_motor.Mode=0;
+				}
 				
 				if((SystemState.OutLine_Flag&0x04))
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED3_Pin);
+					  Chassis_motor.Mode=2;
+					  printf("motor2 over");
 						osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED3_Pin,GPIO_PIN_RESET);
+				} else  
+				{
+					HAL_GPIO_WritePin(GPIOG,LED3_Pin,GPIO_PIN_RESET);
+					Chassis_motor.Mode=0;
+				}
 				
 				if((SystemState.OutLine_Flag&0x08))
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED4_Pin);
+					  Chassis_motor.Mode=3;
+					  printf("motor3 over");
 						osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED4_Pin,GPIO_PIN_RESET);
+				} else  
+				{
+					Chassis_motor.Mode=0;
+					HAL_GPIO_WritePin(GPIOG,LED4_Pin,GPIO_PIN_RESET);
+				}
 				
 				if((SystemState.OutLine_Flag&0x10))
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED5_Pin);
+					  Chassis_motor.Mode=4;
+					  printf("motor4 over");
 						osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED5_Pin,GPIO_PIN_RESET);		
+				} else  
+				{
+						Chassis_motor.Mode=0;
+						HAL_GPIO_WritePin(GPIOG,LED5_Pin,GPIO_PIN_RESET);		
+				}
 				
 				if((SystemState.OutLine_Flag&0x20))
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED6_Pin);
+					  Gimbal_Motor.Mode=1;
+					  printf("motor_Y over");
 						osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED6_Pin,GPIO_PIN_RESET);
-
+				} else  
+				{
+						HAL_GPIO_WritePin(GPIOG,LED6_Pin,GPIO_PIN_RESET);
+						Gimbal_Motor.Mode=0;
+				}
 
 				if((SystemState.OutLine_Flag&0x40))
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED7_Pin);
+				  	Gimbal_Motor.Mode=2;
+					  printf("motor_P over");
 						osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED7_Pin,GPIO_PIN_RESET);
-
+				} else  
+				{
+						Gimbal_Motor.Mode=0;
+						HAL_GPIO_WritePin(GPIOG,LED7_Pin,GPIO_PIN_RESET);
+				}
 				if((SystemState.OutLine_Flag&0x80))
 				{
 						HAL_GPIO_TogglePin(GPIOG,LED8_Pin);
+					  Gimbal_Motor.Mode=3;
+					  printf("motor_B over");
 						osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED8_Pin,GPIO_PIN_RESET);
-		
+				} else 
+        {	
+					Gimbal_Motor.Mode=0;
+					HAL_GPIO_WritePin(GPIOG,LED8_Pin,GPIO_PIN_RESET);
+				}
 				if((SystemState.OutLine_Flag&0x100))
 				{
+					  JY61.Mode=1;
+					  printf("JY61 over");
 						HAL_GPIO_TogglePin(GPIOG,LED1_Pin);
 						osDelayUntil(&xLastWakeTime,200);
 					  HAL_GPIO_TogglePin(GPIOG,LED1_Pin);
 					  osDelayUntil(&xLastWakeTime,200);
-				} else  HAL_GPIO_WritePin(GPIOG,LED8_Pin,GPIO_PIN_RESET);
-				
-		osDelayUntil(&xLastWakeTime,LED_PERIOD);
+					  
+				} else  
+				{
+					JY61.Mode=0;
+					HAL_GPIO_WritePin(GPIOG,LED8_Pin,GPIO_PIN_RESET);
+				}
+	  	osDelayUntil(&xLastWakeTime,LED_PERIOD);
 		
 	 }
  }
-#endif
 }
 
 
@@ -134,8 +187,7 @@ void Check_Task(void const * argument)
 				if((SystemState.task_OutLine_Flag&0x04))
 				{
 						printf("RemoteDataTask GG \n\t");
-						HAL_UART_DMAPause(&huart1);
-				    *USART1_RX_DATA = 0;
+			      Remote_Disable();
 						osDelayUntil(&xLastWakeTime,100);
 				} 
 				

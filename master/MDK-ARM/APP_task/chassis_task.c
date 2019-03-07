@@ -45,10 +45,10 @@ void Chassis_pid_init(void)
 	 pid_3508_pos.deadband=150;
 	
 	 PID_struct_init(&pid_chassis_follow, POSITION_PID,10000,1000,
-	                4.0f, 0.01f , 20.0f  );
-//	  pid_chassis_follow.deadband=10;
-	 PID_struct_init(&pid_chassis_follow_spd, POSITION_PID,4000,1000,
-	                0.5f, 0.0f , 0.0f  );
+	                2.0f, 0.01f , 1.0f  );
+	  pid_chassis_follow.deadband=500;
+	 PID_struct_init(&pid_chassis_follow_spd, POSITION_PID,5000,1000,
+	                0.7f, 0.0f , 0.0f  );
 	
 		for(int i=0; i<4; i++)
 		{ 
@@ -90,7 +90,7 @@ void Chassis_Contrl_Task(void const * argument)
 	  IMU_Get_Data();
     RefreshTaskOutLineTime(ChassisContrlTask_ON);
 //	 	switch(chassis_gimble_Mode_flg)
-		switch(chassis_gimble_Mode_flg)
+		switch(0)
 		{	
 			case 0:	{	//·ÖÀë	
 			motor_move_setvmmps(wheel,moto_3508_set.dstVmmps_X,moto_3508_set.dstVmmps_Y,moto_3508_set.dstVmmps_W);
@@ -157,17 +157,19 @@ void Chassis_Contrl_Task(void const * argument)
 				
 				
 //				printf("set:%f  , get:%d , out:%f \n",wheel[0],moto_chassis_get[0].real_current,pid_3508_current[0].pos_out);
+				switch(Chassis_motor.Mode)
+				{
+					case 1:  pid_3508_spd[0].pos_out=0;
+					break;
+					case 2:  pid_3508_spd[1].pos_out=0;
+					break;
+					case 3:  pid_3508_spd[2].pos_out=0;
+					break;
+					case 4:  pid_3508_spd[3].pos_out=0;
+					break;
+					default: break;
+				}
 				
-			if(printf_Chassis){ 
-			printf("total:%d£¬set: 0\n\r",yaw_get.total_angle);
-			printf("x:%f,y:%f,w:%f\n\r",moto_3508_set.dstVmmps_X,moto_3508_set.dstVmmps_Y,pid_3508_pos.pos_out);
-			printf("out[1]:%f\n\r[2]:%f\n\r[3]:%f\n\r[4]:%f\n\r",
-																	Current_set[0],
-																	Current_set[1], 
-																	Current_set[2], 
-																	Current_set[3]);
-			printf("*********************\n");
-			}
 			if(chassis_disable_flg==1)
 			{
 				  Chassis_Motor_Disable(&hcan2);

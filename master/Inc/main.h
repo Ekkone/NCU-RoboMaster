@@ -46,8 +46,8 @@
   /* Includes ------------------------------------------------------------------*/
 //所有对库文件的更改全局搜索统一的关键词: _改库
 /* USER CODE BEGIN Includes */
-#define BoardOld 				1	//1为旧板子，0为新板子
-#define BoardNew				0
+#define BoardOld 				0 	//1为旧板子，0为新板子
+#define BoardNew				1
 
 #define infantry 				1 	//步兵车
 #define engineer				0 	//工程车
@@ -58,6 +58,19 @@
 #define pritnf_Imu    	0   //imu是否有数据
 #define printf_Referee 	0		//裁判系统是否有数据
 #define printf_Chassis  0   //底盘跟随pid数据
+
+/*********************************测试模式*************************************/
+
+#define Mocha_Moshi           0   //0为不闭环 1为闭环模式
+
+
+
+
+
+
+
+
+
 
 #define USE_FULL_ASSERT 		//断言，调试用
 #undef  USE_FULL_ASSERT
@@ -77,6 +90,16 @@
 /* Private define ------------------------------------------------------------*/
 
 extern void Error_Handler(void);
+
+#define TIM2_CH2_Pin GPIO_PIN_1
+#define TIM2_CH2_GPIO_Port GPIOA
+#define TIM2_CH1_Pin GPIO_PIN_0
+#define TIM2_CH1_GPIO_Port GPIOA
+
+#define TIM4_CH2_Pin GPIO_PIN_13
+#define TIM4_CH2_GPIO_Port GPIOD
+#define TIM4_CH1_Pin GPIO_PIN_12
+#define TIM4_CH1_GPIO_Port GPIOD
 
 #define TIM5_CH2_Pin GPIO_PIN_11
 #define TIM5_CH2_GPIO_Port GPIOH
