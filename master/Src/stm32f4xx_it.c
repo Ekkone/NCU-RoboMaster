@@ -78,7 +78,9 @@ extern xQueueHandle UART8_RX_QueHandle;//串口8接收队列
 extern uint32_t Micro_Tick;
 extern uint32_t Photoelectric_gate1,Photoelectric_gate2;
 extern uint16_t gate1_counter,gate2_counter;
-
+//限位开关检测弹丸
+extern uint8_t prepare_flag;
+extern uint8_t shotover_flag;
 uint16_t mc_get[2] = {0,0};
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -256,7 +258,32 @@ void EXTI2_IRQHandler(void)
 
   /* USER CODE END EXTI2_IRQn 1 */
 }
+/**
+* @brief This function handles EXTI line2 interrupt.
+*/
+void EXTI0_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI2_IRQn 0 */
 
+  /* USER CODE END EXTI2_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  /* USER CODE BEGIN EXTI2_IRQn 1 */
+
+  /* USER CODE END EXTI2_IRQn 1 */
+}
+/**
+* @brief This function handles EXTI line2 interrupt.
+*/
+void EXTI1_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI2_IRQn 0 */
+
+  /* USER CODE END EXTI2_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
+  /* USER CODE BEGIN EXTI2_IRQn 1 */
+
+  /* USER CODE END EXTI2_IRQn 1 */
+}
 /**
 * @brief This function handles EXTI line[9:5] interrupts.
 */
@@ -679,6 +706,14 @@ void	HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	{
 		Photoelectric_gate2 = Micro_Tick;
 		gate2_counter++;
+ 	}
+  else if(GPIO_Pin == GPIO_PIN_0)//装弹
+	{
+		prepare_flag = 1;
+ 	}
+  else if(GPIO_Pin == GPIO_PIN_1)//发射完成
+	{
+		shotover_flag = 1;
  	}
 }
 /* USER CODE END 1 */

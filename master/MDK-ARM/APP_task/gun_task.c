@@ -17,6 +17,8 @@
 /* 外部变量声明--------------------------------------------------------------*/
 Heat_Gun_t  ptr_heat_gun_t;
 extern uint8_t shot_frequency;
+uint8_t prepare_flag = 0;
+uint8_t shotover_flag = 0;
 volatile uint8_t finish_flag = 0;
 //Power_Heat * power_heat;
 /* 外部函数原型声明-----------------------------------------------------------
@@ -72,13 +74,19 @@ void Gun_Task(void const * argument)
 	int32_t set_speed = 0;
 	static uint8_t set_cnt = 0;
   static uint8_t block_flag;
+  static float prepare_time = 0;
+  static float check_time = 0;
   /*设定发弹*/
 
 	for(;;)
 	{
 		
 		RefreshTaskOutLineTime(GunTask_ON);
-
+    /*判断当前是否空弹*/
+    if(ptr_heat_gun_t.sht_flg == 5 && prepare_flag == 0)
+    {
+      ptr_heat_gun_t.sht_flg = 4;//装弹
+    }
  /*判断拨盘是否转到位置*/		
 		if(moto_dial_get.round_cnt <=-5*set_cnt)
 			{
@@ -105,7 +113,7 @@ void Gun_Task(void const * argument)
 				moto_dial_get.total_angle=0;	
 				
 			}else     block_flag=0;
-			
+      
  /*判断发射模式*/
     switch(ptr_heat_gun_t.sht_flg)
     {
@@ -144,6 +152,34 @@ void Gun_Task(void const * argument)
         set_cnt=1;
 				
       }break;
+      case 4://装弹（确认空弹才可装弹，否则可能将预置弹丸发射）
+      {
+        if(prepare_flag == 1)//装弹完成
+        {
+          ptr_heat_gun_t.sht_flg = 0;//停止
+        }
+        else//连转
+        {
+          moto_dial_get.cmd_time=GetSystemTimer();
+          set_speed=-5000;
+          set_cnt=1;
+        }
+      }break;
+      case 5://反馈单发
+      {
+        
+        if(shotover_flag == 1)//发射完成
+        {
+          ptr_heat_gun_t.sht_flg = 0;//停止
+          shotover_flag = 0;
+        }
+        else//连转
+        {
+          moto_dial_get.cmd_time=GetSystemTimer();
+          set_speed=-5000;
+          set_cnt=1;
+        }
+      }break;
 			case 10://反转
 			{
 				
@@ -160,6 +196,12 @@ void Gun_Task(void const * argument)
 		 Allocate_Motor(&hcan1,pid_dial_spd.pos_out);
 		 minipc_rx.state_flag=0;
 		 set_speed=0;
+     /**/
+    prepare_time = GetSystemTimer() - check_time;
+    if(prepare_time == 0)
+    {
+      check_time = GetSystemTimer();
+    }
      osDelayUntil(&xLastWakeTime,GUN_PERIOD);
 	}
 }
@@ -178,7 +220,7 @@ void Mocha_Task(void const *argument)
 		
    switch(ptr_heat_gun_t.sht_flg)
     {
-			case 0://停止
+			case 0 | 4://停止
 			{
 	       Friction_Wheel_Motor(1000,1000);
 			}break;
@@ -192,7 +234,7 @@ void Mocha_Task(void const *argument)
       {
 				Friction_Wheel_Motor(1500,1500);
       }break;
-      case 3://连发模式
+      case 3 | 5://连发模式
       {
 				 Friction_Wheel_Motor(1300,1300);
       }break;
